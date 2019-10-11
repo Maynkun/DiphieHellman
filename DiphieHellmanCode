@@ -1,0 +1,85 @@
+import java.util.ArrayList;
+import java.util.Random;
+
+class Persons {
+	int SimplMod = 0;
+	long root = 0;
+	int Number = 0;
+	long PrivetKey = 0;
+	long  MyPublicKey =0;
+	long OtherPublicKey = 0;
+	public void PrivetKey () {
+		PrivetKey=(long) Math.pow(OtherPublicKey,Number)%SimplMod;
+	}
+	public void setSimplMod (int SimplMod) {
+		this.SimplMod=SimplMod;
+	}
+	public void setRoot(long root) {
+	this.root=root;
+	}
+	public void setOtherPublicKey(long OtherPublicKey) {
+		this.OtherPublicKey=OtherPublicKey;
+	}
+	public void PublicKey() {
+		MyPublicKey =(int) (Math.pow(root,Number)%SimplMod);
+	}
+	public void RandomNumber() {
+		Random random = new Random();
+		Number = 2+random.nextInt(10);
+	}
+	public void RandomSimpl() {
+		Random random = new Random();
+		int j = 3+random.nextInt(20);
+		boolean n = true;
+		while (n)
+		{
+			n = false;
+			for (int i = 2; i<j;i++) {
+				if (j % i ==0) n=true;
+			}
+			if (n) j++;
+		}
+		SimplMod = j;
+	}
+	
+	public void FindRoot () {
+		for(int i=2;i<SimplMod;i++) {
+			if (IsRoot(i)) {root = i; return;}
+		}
+	}
+	public boolean IsRoot (int r) {
+		
+		
+			ArrayList<Long> set = new ArrayList<>();
+			long balance =0;
+			for (long j = 1; j < SimplMod - 1; j++) {
+				balance= (long)Math.pow(r,j)%SimplMod;
+			if (set.contains(balance)) return false;
+			else set.add(balance);
+			} return true;
+	}
+			
+}
+
+
+public class Main {
+	 public static void main (String args[]) {
+		 Persons Alise = new Persons ();
+		 Persons Bob = new Persons ();
+		 Alise.RandomSimpl();
+		 Alise.FindRoot();
+		 Alise.RandomNumber();
+		 Alise.PublicKey();
+		 Bob.setSimplMod(Alise.SimplMod);
+		 Bob.setRoot(Alise.root);
+		 Bob.RandomNumber();
+		 Bob.PublicKey();
+		 Bob.setOtherPublicKey(Alise.MyPublicKey);
+		 Alise.setOtherPublicKey(Bob.MyPublicKey);
+		 Alise.PrivetKey();
+		 Bob.PrivetKey();
+		 System.out.println("Privet Key of Alise:  "+Alise.PrivetKey);
+		 System.out.println("Privet Key of Bob:  "+Bob.PrivetKey);
+	 }
+
+}
